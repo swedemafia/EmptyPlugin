@@ -16,6 +16,7 @@ public:
 	// Use these instead of a constructor/destructor
 	BOOL Initialize(void); // Return FALSE to abort (if this returns FALSE, Terminate will not be called)
 	void Terminate(void); // Perform any termination of the plugin here
+
 };
 
 #endif

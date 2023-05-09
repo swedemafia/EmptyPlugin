@@ -37,12 +37,25 @@ BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information)
 	ZeroMemory(&API, sizeof(API));
 
 	// Set addresses
-	API.m_ProcessConsoleCommand = Information->ProcessConsoleCommand;
-	API.m_RefreshUserInput = Information->RefreshUserInput;
-	API.m_ResetCursorPosition = Information->ResetCursorPosition;
-	API.m_SetOutputColor = Information->SetOutputColor;
-	API.m_WriteOutputString = Information->WriteOutputString;
-	API.m_WriteOutputTimestamp = Information->WriteOutputTimestamp;
+	
+	// UI:
+	API.m_ProcessConsoleCommand		= Information->ProcessConsoleCommand;
+	API.m_RefreshUserInput			= Information->RefreshUserInput;
+	API.m_ResetCursorPosition		= Information->ResetCursorPosition;
+	API.m_SetOutputColor			= Information->SetOutputColor;
+	API.m_WriteOutputString			= Information->WriteOutputString;
+	API.m_WriteOutputTimestamp		= Information->WriteOutputTimestamp;
+
+	// Input:
+	API.m_GetCpuLoadValue			= Information->GetCpuLoadValue;
+	API.m_GetSlotValue				= Information->GetSlotValue;
+	API.m_GetConnectedController	= Information->GetConnectedController;
+	API.m_GetConnectedConsole		= Information->GetConnectedConsole;
+	API.m_GetLedState				= Information->GetLedState;
+	API.m_GetRumble					= Information->GetRumble;
+	API.m_GetBatteryValue			= Information->GetBatteryValue;
+	API.m_GetInputValue				= Information->GetInputValue;
+	API.m_GetVmSpeedValue			= Information->GetVmSpeedValue;
 
 	// Set hook addresses
 	Information->ConnectionHook = &HookManager::ConnectionHook;
@@ -53,4 +66,10 @@ BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information)
 	Information->HookParam = (LPARAM)&PluginInstance;
 
 	return Initialized = PluginInstance.Initialize();
+}
+
+DWORD WINAPI PluginThread(LPVOID Parameter)
+{
+	// Add code here
+	return 0;
 }
