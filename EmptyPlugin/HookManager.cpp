@@ -1,10 +1,6 @@
 #include "PCH.h"
 
-// Connection hook
-BOOL WINAPI HookManager::ConnectionHook(DWORD EventCode, LPARAM lParam)
-{
-	return ((HookManager*)lParam)->ConnectionHook((PluginAPI::ConnectionState)EventCode);
-}
+// Nothing should be modified within this file
 
 // Command hook
 BOOL WINAPI HookManager::CommandHook(LPCSTR CommandString, LPARAM lParam)
@@ -12,14 +8,20 @@ BOOL WINAPI HookManager::CommandHook(LPCSTR CommandString, LPARAM lParam)
 	return ((HookManager*)lParam)->CommandHook(CommandString);
 }
 
-// Device hook
-BOOL WINAPI HookManager::DeviceHook(DWORD EventCode, LPARAM lParam)
+// Connection hook
+void WINAPI HookManager::ConnectionHook(DWORD EventCode, LPARAM lParam)
 {
-	return ((HookManager*)lParam)->DeviceHook((PluginAPI::DeviceState)EventCode);
+	((HookManager*)lParam)->ConnectionHook((Emulator::ConnectionState)EventCode);
+}
+
+// Device hook
+void WINAPI HookManager::DeviceHook(DWORD EventCode, LPARAM lParam)
+{
+	((HookManager*)lParam)->DeviceHook((Emulator::DeviceState)EventCode);
 }
 
 // Message hook
-BOOL WINAPI HookManager::MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam)
+void WINAPI HookManager::MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam)
 {
-	return ((HookManager*)lParam)->MessageHook(PacketID, PayloadSize, Payload);
+	((HookManager*)lParam)->MessageHook(PacketID, PayloadSize, Payload);
 }

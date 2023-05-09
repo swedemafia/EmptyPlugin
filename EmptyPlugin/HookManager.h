@@ -12,17 +12,17 @@ class HookManager
 
 private:
 
-	static BOOL WINAPI ConnectionHook(DWORD EventCode, LPARAM lParam);
 	static BOOL WINAPI CommandHook(LPCSTR CommandString, LPARAM lParam);
-	static BOOL WINAPI DeviceHook(DWORD EventCode, LPARAM lParam);
-	static BOOL WINAPI MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam);
+	static void WINAPI ConnectionHook(DWORD EventCode, LPARAM lParam);
+	static void WINAPI DeviceHook(DWORD EventCode, LPARAM lParam);
+	static void WINAPI MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam);
 
 protected:
 
-	virtual BOOL ConnectionHook(PluginAPI::ConnectionState EventCode) = 0;
 	virtual BOOL CommandHook(LPCSTR CommandString) = 0;
-	virtual BOOL DeviceHook(PluginAPI::DeviceState EventCode) = 0;
-	virtual BOOL MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload) = 0;
+	virtual void ConnectionHook(Emulator::ConnectionState EventCode) = 0;
+	virtual void DeviceHook(Emulator::DeviceState EventCode) = 0;
+	virtual void MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload) = 0;
 };
 
 #endif

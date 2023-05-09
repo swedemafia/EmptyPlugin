@@ -2,7 +2,85 @@
 #define EMULATORPLUGIN_H
 #pragma once
 
-namespace PluginAPI
+namespace Console
+{
+	enum Type {
+		None,
+		Ps3,
+		Xb360,
+		Ps4,
+		Xb1,
+		Switch,
+		Ps5,
+		Wheel = 8,
+	};
+}
+
+namespace Controller
+{
+	enum Rumble {
+		RumbleA,
+		RumbleB,
+		RumbleRT,
+		RumbleLT
+	};
+
+	enum Type {
+		None,
+		Ps3 = 16,
+		Xb360 = 32,
+		Wii = 48,
+		WiiN,
+		WiiPro,
+		SwitchPro,
+		SwitchCon,
+		WiiuPro,
+		Ps4 = 64,
+		Ps5,
+		Xb1 = 80,
+		Df = 100,
+		DfPro = 104,
+		Dfgt = 106,
+		G25 = 105,
+		G27 = 107,
+		G29 = 112,
+		G920H = 98,
+		G920X = 128,
+		KEYBMOUSE = 144
+	};
+
+	enum XboxOne {
+		XB1_XBOX,
+		XB1_VIEW,
+		XB1_MENU,
+		XB1_RB,
+		XB1_RT,
+		XB1_RS,
+		XB1_LB,
+		XB1_LT,
+		XB1_LS,
+		XB1_RX,
+		XB1_RY,
+		XB1_LX,
+		XB1_LY,
+		XB1_UP,
+		XB1_DOWN,
+		XB1_LEFT,
+		XB1_RIGHT,
+		XB1_Y,
+		XB1_B,
+		XB1_A,
+		XB1_X,
+		XB1_SHARE,
+		XB1_SYNC = 27,
+		XB1_PR1,
+		XB1_PR2,
+		XB1_PL1,
+		XB1_PL2
+	};
+}
+
+namespace Emulator
 {
 	enum ConnectionState {
 		Connection_Disconnected,
@@ -43,73 +121,47 @@ namespace PluginAPI
 		White,
 		NumColors
 	};
+}
 
-	enum RumbleValue {
-		RumbleA,
-		RumbleB,
-		RumbleRT,
-		RumbleLT
-	};
-
-	enum ConsoleType {
-		Console_None,
-		Console_Ps3,
-		Console_Xb360,
-		Console_Ps4,
-		Console_Xb1,
-		Console_Switch,
-		Console_Ps5,
-		Console_Wheel = 8,
-	};
-
-	enum ControllerType {
-		Controller_None,
-		Controller_Ps3 = 16,
-		Controller_Xb360 = 32,
-		Controller_Wii = 48,
-		Controller_WiiN,
-		Controller_WiiPro,
-		Controller_SwitchPro,
-		Controller_SwitchCon,
-		Controller_WiiuPro,
-		Controller_Ps4 = 64,
-		Controller_Ps5,
-		Controller_Xb1 = 80,
-		Controller_Df = 100,
-		Controller_DfPro = 104,
-		Controller_Dfgt = 106,
-		Controller_G25 = 105,
-		Controller_G27 = 107,
-		Controller_G29 = 112,
-		Controller_G920H = 98,
-		Controller_G920X = 128,
-		Controller_KEYBMOUSE = 144
-	};
-
+namespace PluginAPI
+{
 	// Prototypes of callback functions
 
 	// Hooks:
-	typedef BOOL(WINAPI* ConnectionHookProc)(DWORD EventCode, LPARAM lParam);
 	typedef BOOL(WINAPI* CommandHookProc)(LPCSTR ConsoleCommand, LPARAM lParam);
-	typedef BOOL(WINAPI* DeviceHookProc)(DWORD EventCode, LPARAM lParam);
-	typedef BOOL(WINAPI* MessageHookProc)(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam);
+	typedef void(WINAPI* ConnectionHookProc)(DWORD EventCode, LPARAM lParam);
+	typedef void(WINAPI* DeviceHookProc)(DWORD EventCode, LPARAM lParam);
+	typedef void(WINAPI* MessageHookProc)(BYTE PacketID, WORD PayloadSize, BYTE* Payload, LPARAM lParam);
 
 	// Prototypes of Zen++ API Functions
+	
+	// UI:
 	typedef BOOL(WINAPI* ProcessConsoleCommandProc)(LPCSTR CommandString);
 	typedef int(WINAPI* RefreshUserInputProc)(void);
 	typedef BOOL(WINAPI* ResetCursorPositionProc)(void);
-	typedef BOOL(WINAPI* SetOutputColorProc)(OutputColor Color);
+	typedef BOOL(WINAPI* SetOutputColorProc)(Emulator::OutputColor Color);
 	typedef int(WINAPI* WriteOutputTimestampProc)(void);
 	typedef int(WINAPI* WriteOutputStringProc)(LPCSTR String);
 
-	typedef WORD(WINAPI* GetCpuLoadValueProc)(void);
-	typedef BYTE(WINAPI* GetSlotValueProc)(void);
-	typedef ControllerType(WINAPI* GetConnectedControllerProc)(void);
-	typedef ConsoleType(WINAPI* GetConnectedConsoleProc)(void);
-	typedef BYTE(WINAPI* GetLedStateProc)(BYTE Index);
-	typedef BYTE(WINAPI* GetRumbleProc)(RumbleValue Rumble);
+	// Actions:
+	typedef BOOL(WINAPI* EventPressProc)(BYTE Identifier);
+	typedef BOOL(WINAPI* EventReleaseProc)(BYTE Identifier);
+
+	// Controller:
 	typedef BYTE(WINAPI* GetBatteryValueProc)(void);
-	typedef char(WINAPI* GetInputValueProc)(BYTE Input);
+	typedef char(WINAPI* GetInputValueProc)(BYTE Identifier);
+	typedef char(WINAPI* GetLastInputValueProc)(BYTE Identifier);
+	typedef char(WINAPI* GetOutputValueProc)(BYTE Identifier);
+	typedef DWORD(WINAPI* GetPressTimeProc)(BYTE Identifier);
+	typedef DWORD(WINAPI* GetReleaseTimeProc)(BYTE Identifier);
+	typedef BYTE(WINAPI* GetRumbleProc)(Controller::Rumble Rumble);
+
+	// Device:
+	typedef Console::Type(WINAPI* GetConnectedConsoleProc)(void);
+	typedef Controller::Type(WINAPI* GetConnectedControllerProc)(void);
+	typedef WORD(WINAPI* GetCpuLoadValueProc)(void);
+	typedef BYTE(WINAPI* GetLedStateProc)(BYTE Index);
+	typedef BYTE(WINAPI* GetSlotValueProc)(void);
 	typedef BYTE(WINAPI* GetVmSpeedValueProc)(void);
 
 	// Plugin interface
@@ -117,40 +169,52 @@ namespace PluginAPI
 		DWORD Size;
 
 		// Zen++ API functions
+		// UI:
 		ProcessConsoleCommandProc	ProcessConsoleCommand;
 		RefreshUserInputProc		RefreshUserInput;
 		ResetCursorPositionProc		ResetCursorPosition;
 		SetOutputColorProc			SetOutputColor;
 		WriteOutputTimestampProc	WriteOutputTimestamp;
 		WriteOutputStringProc		WriteOutputString;
-		GetCpuLoadValueProc			GetCpuLoadValue;
-		GetSlotValueProc			GetSlotValue;
-		GetConnectedControllerProc	GetConnectedController;
-		GetConnectedConsoleProc		GetConnectedConsole;
-		GetLedStateProc				GetLedState;
-		GetRumbleProc				GetRumble;
+
+		// Actions:
+		EventPressProc				EventPress;
+		EventReleaseProc			EventRelease;
+		
+		// Controller:
 		GetBatteryValueProc			GetBatteryValue;
 		GetInputValueProc			GetInputValue;
+		GetLastInputValueProc		GetLastInputValue;
+		GetOutputValueProc			GetOutputValue;
+		GetPressTimeProc			GetPressTime;
+		GetReleaseTimeProc			GetReleaseTime;
+		GetRumbleProc				GetRumble;
+
+		// Device:
+		GetConnectedConsoleProc		GetConnectedConsole;
+		GetConnectedControllerProc	GetConnectedController;
+		GetCpuLoadValueProc			GetCpuLoadValue;
+		GetLedStateProc				GetLedState;
+		GetSlotValueProc			GetSlotValue;
 		GetVmSpeedValueProc			GetVmSpeedValue;
 
-
 		// Hooks
-		ConnectionHookProc ConnectionHook;
-		CommandHookProc CommandHook;
-		DeviceHookProc DeviceHook;
-		MessageHookProc MessageHook;
-
-		LPARAM HookParam;
+		ConnectionHookProc			ConnectionHook;
+		CommandHookProc				CommandHook;
+		DeviceHookProc				DeviceHook;
+		MessageHookProc				MessageHook;
+		LPARAM						HookParam;
 	};
 
 	// Handles:
 	static HANDLE Thread;
 }
 
-DWORD WINAPI PluginThread(LPVOID Parameter);
-	// Main thread for the plugin
 
 BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information);
     // Export as "SetInterfaceInformation"
+
+DWORD WINAPI PluginThread(LPVOID Parameter);
+	// Main thread for the plugin
 
 #endif
