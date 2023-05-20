@@ -80,6 +80,18 @@ namespace Controller
 	};
 }
 
+namespace Device
+{
+	enum TraceValue {
+		TRACE_1 = 0,
+		TRACE_2,
+		TRACE_3,
+		TRACE_4,
+		TRACE_5,
+		TRACE_6
+	};
+}
+
 namespace Emulator
 {
 	enum ConnectionState {
@@ -155,6 +167,7 @@ namespace PluginAPI
 	typedef DWORD(WINAPI* GetPressTimeProc)(BYTE Identifier);
 	typedef DWORD(WINAPI* GetReleaseTimeProc)(BYTE Identifier);
 	typedef BYTE(WINAPI* GetRumbleProc)(Controller::Rumble Rumble);
+	typedef DWORD(WINAPI* GetTraceValueProc)(Device::TraceValue Value);
 
 	// Device:
 	typedef Console::Type(WINAPI* GetConnectedConsoleProc)(void);
@@ -196,6 +209,7 @@ namespace PluginAPI
 		GetCpuLoadValueProc			GetCpuLoadValue;
 		GetLedStateProc				GetLedState;
 		GetSlotValueProc			GetSlotValue;
+		GetTraceValueProc			GetTraceValue;
 		GetVmSpeedValueProc			GetVmSpeedValue;
 
 		// Hooks

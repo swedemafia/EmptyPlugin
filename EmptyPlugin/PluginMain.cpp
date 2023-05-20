@@ -70,6 +70,7 @@ BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information)
 	API.m_GetCpuLoadValue			= Information->GetCpuLoadValue;
 	API.m_GetLedState				= Information->GetLedState;
 	API.m_GetSlotValue				= Information->GetSlotValue;
+	API.m_GetTraceValue				= Information->GetTraceValue;
 	API.m_GetVmSpeedValue			= Information->GetVmSpeedValue;
 
 	// Set hook addresses

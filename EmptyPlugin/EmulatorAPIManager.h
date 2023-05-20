@@ -36,6 +36,7 @@ private:
 	PluginAPI::GetCpuLoadValueProc			m_GetCpuLoadValue;
 	PluginAPI::GetLedStateProc				m_GetLedState;
 	PluginAPI::GetSlotValueProc				m_GetSlotValue;
+	PluginAPI::GetTraceValueProc			m_GetTraceValue;
 	PluginAPI::GetVmSpeedValueProc			m_GetVmSpeedValue;
 
 public:
@@ -122,6 +123,10 @@ public:
 
 	BYTE GetSlotValue(void) {
 		return m_GetSlotValue();
+	}
+
+	DWORD GetTraceValue(Device::TraceValue Value) {
+		return m_GetTraceValue(Value);
 	}
 
 	BYTE GetVmSpeedValue(void) {
