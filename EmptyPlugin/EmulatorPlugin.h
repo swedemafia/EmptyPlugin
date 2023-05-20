@@ -299,7 +299,9 @@ namespace Emulator
 		Connection_FactoryReset,
 		Connection_FlashConfig,
 		Connection_FlashGamepack,
+		Connection_PS4Speciality,
 		Connection_RefreshDevice,
+		Connection_RemotePlay,
 		Connection_ResetDevice,
 		Connection_RunScript,
 		Connection_UnloadGpc
