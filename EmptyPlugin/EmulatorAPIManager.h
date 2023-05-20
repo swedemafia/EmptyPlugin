@@ -26,6 +26,7 @@ private:
 	PluginAPI::GetInputValueProc			m_GetInputValue;
 	PluginAPI::GetLastInputValueProc		m_GetLastInputValue;
 	PluginAPI::GetOutputValueProc			m_GetOutputValue;
+	PluginAPI::GetPs5AdtDataProc			m_GetPs5AdtData;
 	PluginAPI::GetPressTimeProc				m_GetPressTime;
 	PluginAPI::GetReleaseTimeProc			m_GetReleaseTime;
 	PluginAPI::GetRumbleProc				m_GetRumble;
@@ -92,6 +93,10 @@ public:
 		return m_GetOutputValue(Identifier);
 	}
 
+	BYTE GetPs5AdtData(Controller::Ps5AdtValue Value) {
+		return m_GetPs5AdtData(Value);
+	}
+
 	DWORD GetPressTime(BYTE Identifier) {
 		return m_GetPressTime(Identifier);
 	}
@@ -125,7 +130,7 @@ public:
 		return m_GetSlotValue();
 	}
 
-	DWORD GetTraceValue(Device::TraceValue Value) {
+	int GetTraceValue(Device::TraceValue Value) {
 		return m_GetTraceValue(Value);
 	}
 

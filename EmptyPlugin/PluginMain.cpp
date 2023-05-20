@@ -63,6 +63,7 @@ BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information)
 	API.m_GetPressTime				= Information->GetPressTime;
 	API.m_GetReleaseTime			= Information->GetReleaseTime;
 	API.m_GetRumble					= Information->GetRumble;
+	API.m_GetPs5AdtData				= Information->GetPs5AdtData;
 
 	// Devices:
 	API.m_GetConnectedConsole		= Information->GetConnectedConsole;
