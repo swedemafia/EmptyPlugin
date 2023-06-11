@@ -10,10 +10,6 @@ class EmulatorAPIManager
 private:
 
 	// UI:
-	PluginAPI::ProcessConsoleCommandProc	m_ProcessConsoleCommand;
-	PluginAPI::RefreshUserInputProc			m_RefreshUserInput;
-	PluginAPI::ResetCursorPositionProc		m_ResetCursorPosition;
-	PluginAPI::SetOutputColorProc			m_SetOutputColor;
 	PluginAPI::WriteOutputStringProc		m_WriteOutputString;
 	PluginAPI::WriteOutputTimestampProc		m_WriteOutputTimestamp;
 
@@ -43,24 +39,8 @@ private:
 public:
 
 	// UI:
-	BOOL ProcessConsoleCommand(LPCSTR CommandString) {
-		return m_ProcessConsoleCommand(CommandString);
-	}
-
-	int RefreshUserInput(void) {
-		return m_RefreshUserInput();
-	}
-
-	BOOL ResetCursorPosition(void) {
-		return m_ResetCursorPosition();
-	}
-
-	BOOL SetOutputColor(Emulator::OutputColor Color) {
-		return m_SetOutputColor(Color);
-	}
-
-	int WriteOutputString(LPCSTR String) {
-		return m_WriteOutputString(String);
+	void WriteOutputString(UINT Color, LPCSTR FormattedString) {
+		m_WriteOutputString(Color, FormattedString);
 	}
 
 	int WriteOutputTimestamp(void) {

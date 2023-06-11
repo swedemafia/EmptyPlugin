@@ -12,12 +12,12 @@ DWORD WINAPI PluginThread(LPVOID Parameter)
 		if (API.EventPress(Controller::XB1_RT))
 
 			if (API.GetInputValue(Controller::XB1_LT))
-				PluginInstance.WriteFormattedOutput(Emulator::Yellow, "ADS held & Fire pressed!\r\n");
+				PluginInstance.WriteFormattedOutput(YELLOW, "ADS held & Fire pressed!\r\n");
 			else
-				PluginInstance.WriteFormattedOutput(Emulator::Yellow, "RT pressed; last release was %dms ago!\r\n", API.GetReleaseTime(Controller::XB1_RT));
+				PluginInstance.WriteFormattedOutput(YELLOW, "RT pressed; last release was %dms ago!\r\n", API.GetReleaseTime(Controller::XB1_RT));
 		
 		else if (API.EventRelease(Controller::XB1_RT))
-			PluginInstance.WriteFormattedOutput(Emulator::Yellow, "RT released; was held for %dms!\r\n", API.GetPressTime(Controller::XB1_RT));
+			PluginInstance.WriteFormattedOutput(YELLOW, "RT released; was held for %dms!\r\n", API.GetPressTime(Controller::XB1_RT));
 	}
 
 	return 0;
@@ -89,18 +89,16 @@ void Plugin::MessageHook(BYTE PacketID, WORD PayloadSize, BYTE* Payload)
 
 // Included user function for printing colored & formatted text to console window
 // This function does not need to be modified
-void Plugin::WriteFormattedOutput(Emulator::OutputColor Color, LPCSTR Format, ...)
+void Plugin::WriteFormattedOutput(UINT Color, LPCSTR Format, ...)
 {
-	API.ResetCursorPosition(); // Reset cursor position
-	API.WriteOutputTimestamp(); // Write timestamp
-	API.SetOutputColor(Color); // Set output color
+	char Output[512] = "";
 
-	va_list arg_ptr;
+	va_list argptr;
+	va_start(argptr, Format);
+	vsnprintf_s(Output, sizeof(Output), sizeof(Output) - 1, Format, argptr);
+	va_end(argptr);
 
 	// Print the formatted string to the console
-	va_start(arg_ptr, Format);
-	vprintf(Format, arg_ptr);
-	va_end(arg_ptr);
-
-	API.RefreshUserInput(); // Display the greater-than symbol with any unprocessed user input
+	API.WriteOutputTimestamp();
+	API.WriteOutputString(Color, Output);
 }
