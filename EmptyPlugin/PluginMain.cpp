@@ -44,10 +44,6 @@ BOOL WINAPI PluginMain(PluginAPI::PluginInformation* Information)
 	// Set API addresses
 	// 
 	// UI:
-	//API.m_ProcessConsoleCommand		= Information->ProcessConsoleCommand;
-	//API.m_RefreshUserInput			= Information->RefreshUserInput;
-	//API.m_ResetCursorPosition		= Information->ResetCursorPosition;
-	//API.m_SetOutputColor			= Information->SetOutputColor;
 	API.m_WriteOutputString			= Information->WriteOutputString;
 	API.m_WriteOutputTimestamp		= Information->WriteOutputTimestamp;
 
