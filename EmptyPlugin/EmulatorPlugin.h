@@ -285,7 +285,7 @@ namespace Controller
 		XB1_X,
 		XB1_SHARE,
 		XB1_SYNC = 27,
-		XB1_PR1,
+		XB1_PR1 = 34,
 		XB1_PR2,
 		XB1_PL1,
 		XB1_PL2
