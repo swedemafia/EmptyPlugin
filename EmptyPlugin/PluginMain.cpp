@@ -7,13 +7,17 @@
 EmulatorAPIManager API;
 Plugin PluginInstance;
 
+// Global variables
 static BOOL Initialized;
+static HINSTANCE LibraryInstance;
+static HANDLE MessageThread = INVALID_HANDLE_VALUE;
 
 BOOL APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 {
 	switch (dwReason) {
 	case DLL_PROCESS_ATTACH:
 
+		LibraryInstance = hInstance;
 		DisableThreadLibraryCalls(hInstance);
 
 		break;

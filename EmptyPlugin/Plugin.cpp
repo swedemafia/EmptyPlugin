@@ -1,9 +1,10 @@
 #include "PCH.h"
 
+static BOOL RunThread = FALSE;
+
 DWORD WINAPI PluginThread(LPVOID Parameter)
 {
-	// TODO: Reevaluate this loop condition
-	while (1) {
+	while (RunThread) {
 
 		/* Add your code here */
 
@@ -19,6 +20,9 @@ DWORD WINAPI PluginThread(LPVOID Parameter)
 		else if (API.EventRelease(Controller::XB1_RT))
 			PluginInstance.WriteFormattedOutput(YELLOW, "RT released; was held for %dms!\r\n", API.GetPressTime(Controller::XB1_RT));
 	}
+
+	// Terminate thread
+	ExitThread(0);
 
 	return 0;
 }
@@ -40,8 +44,10 @@ BOOL Plugin::Initialize(void)
 void Plugin::Terminate(void)
 {
 	// Close the PluginThread handle
-	if (PluginAPI::Thread != INVALID_HANDLE_VALUE)
+	if (PluginAPI::Thread != INVALID_HANDLE_VALUE) {
+		RunThread = FALSE;
 		CloseHandle(PluginAPI::Thread);
+	}
 
 	/* Add any termination code here */
 
