@@ -29,6 +29,9 @@ DWORD WINAPI PluginThread(LPVOID Parameter)
 
 BOOL Plugin::Initialize(void)
 {
+	// Flag PluginThread to run
+	RunThread = TRUE;
+
 	// Create the main loop that can process controller input/output
 	PluginAPI::Thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)PluginThread, (LPVOID)this, 0, NULL);
 
